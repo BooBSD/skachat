@@ -1,0 +1,2 @@
+*.clj linguist-language=Clojure
+*.edn linguist-language=Clojure
