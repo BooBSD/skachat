@@ -1,5 +1,5 @@
-src/resources/public/* linguist-vendored
-src/resources/templates/* linguist-vendored
+skachat/src/resources/public/* linguist-vendored
+skachat/src/resources/templates/* linguist-vendored
 
 *.clj linguist-language=Clojure
 *.edn linguist-language=Clojure
