@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="ru" itemscope itemtype="http://schema.org/WebPage">
+    <head>
+        <title>{% block title %}Скачать популярные программы для компьютера{% endblock %}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="description" content="{% block meta_description %}Заходи и качай самые свежие версии популярных программ для ПК. Здесь вы можете скачать на русском языке Опера, МедиаГет, Яндекс Браузер и другие бесплатные программы.{% endblock %}">
+        {% block ogtags %}
+            <meta property="og:type" content="website">
+            <meta property="og:title" content="Популярные программы для Вашего ПК">
+            <meta property="og:image" content="{% url %}/img/logo.png{% endurl %}">
+            <meta property="og:description" content="Здесь вы можете скачать последние версии Опера, МедиаГет, Яндекс Браузер и другие бесплатные программы.">
+        {% endblock %}
+        <meta property="og:url" content="{% url %}/{% endurl %}">
+        <meta property="og:site_name" content="Популярные программы для ПК">
+        <meta property="og:locale" content="ru">
+        <meta name="google-site-verification" content="J5QkFYunrpRqPRW9MMJ6eG4fn7GpjqlR82K-b-cfW64">
+        <meta name="yandex-verification" content="72075f229fce378d">
+        <link rel="shortcut icon" href="{% url %}/img/favicon.ico{% endurl %}">
+        <link rel="canonical" href="{% block canonical %}{{ uri|url }}{% endblock %}">
+        {% block extra_meta %}{% endblock %}
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/css/bootstrap.min.css" integrity="sha384-y3tfxAZXuh4HwSYylfB+J125MxIs6mR5FOHamPBG064zB+AFeWH94NdvaCBm8qnd" crossorigin="anonymous">
+        <script type="application/ld+json">
+			{
+			 "@context" : "http://schema.org",
+			 "@type" : "Organization",
+			 "name" : "example.com",
+			 "url" : "https://example.com",
+			 "sameAs" : [
+				"https://www.facebook.com/example/",
+				"https://twitter.com/example",
+				"https://plus.google.com/107429750693629045327"
+			 ]
+			}
+		</script>
+    {% if dev %}
+        {% style "/css/app.css" %}
+        {% style "/css/icons.css" %}
+    {% else %}
+        <link rel="stylesheet" href="{% url %}/css/site.min.css{% endurl %}">
+    {% endif %}
+    </head>
+    <body>
+        <!--noindex-->
+        <script type="text/javascript">
+            (function (d, w, c) {
+                (w[c] = w[c] || []).push(function() {
+                    try {
+                        w.yaCounter36389895 = new Ya.Metrika({
+                            id:36389895,
+                            clickmap:true,
+                            trackLinks:true,
+                            accurateTrackBounce:true,
+                            webvisor:true,
+                            trackHash:true
+                        });
+                    } catch(e) { }
+                });
+                var n = d.getElementsByTagName("script")[0],
+                    s = d.createElement("script"),
+                    f = function () { n.parentNode.insertBefore(s, n); };
+                s.type = "text/javascript";
+                s.async = true;
+                s.src = "https://mc.yandex.ru/metrika/watch.js";
+                if (w.opera == "[object Opera]") {
+                    d.addEventListener("DOMContentLoaded", f, false);
+                } else { f(); }
+            })(document, window, "yandex_metrika_callbacks");
+        </script>
+        <noscript><div><img src="https://mc.yandex.ru/watch/36389895" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+        <!--/noindex-->
+        <nav id="top-nav" class="navbar navbar-fixed-top navbar-light">
+            <div class="container">
+                <a class="navbar-brand" href="{% url %}/{% endurl %}">
+                    Скачать программу <span class="label label-default hidden-xs-down">COM</span>
+                </a>
+                <button class="navbar-toggler pull-xs-right" type="button" data-toggle="collapse" data-target="#soft-collapsed-nav">
+                    &#9776;
+                </button>
+            </div>
+            <div class="collapse" id="soft-collapsed-nav">
+                <div class="container">
+                    <div class="row text-sm-center">
+                        {% for app in all-apps %}
+                            <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4 col-xl-3 nav-soft-item">
+                                <a href="{% url %}/{{ app.slug }}{% endurl %}" class="h4">
+                                    <img src="{{ app.logo|media|url }}" alt="{{ app.name }}" width="75" class="m-b-1 hidden-xs-down">
+                                    <div>{{ app.name }}</div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                        <div class="col-xs-12 col-sm-3 nav-soft-item hidden-sm-up">
+                            <a href="{% url %}/news{% endurl %}" class="h4">Новости</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+        {% block content %}{% endblock %}
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <footer>
+                        <div class="row">
+                            <div class="col-sm-9">
+                                <ul class="list-inline">
+                                    <li class="list-inline-item"><a href="{% url %}/news{% endurl %}">Новости</a></li>
+                                    <li class="list-inline-item"><a href="{% url %}/about{% endurl %}">О проекте</a></li>
+                                    <li class="list-inline-item"><a href="{% url %}/tos{% endurl %}">Условия пользования</a></li>
+                                    <li class="list-inline-item">
+                                        <!--noindex-->
+                                        <!--LiveInternet counter--><script type="text/javascript"><!--
+                                        document.write("<a href='//www.liveinternet.ru/click' "+
+                                        "target=_blank><img src='//counter.yadro.ru/hit?t26.6;r"+
+                                        escape(document.referrer)+((typeof(screen)=="undefined")?"":
+                                        ";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+                                        screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+                                        ";"+Math.random()+
+                                        "' alt='' title='LiveInternet: показано число посетителей за"+
+                                        " сегодня' "+
+                                        "border='0' width='88' height='15'><\/a>")
+                                        //--></script><!--/LiveInternet-->
+                                        <!--/noindex-->
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-3 text-sm-right">
+                                <a href="http://vk.com/public117745980" class="footer-social-link" target="_blank" title="Мы Вконтакте">
+									<i class="icon-vk-circle"></i>
+								</a>
+                                <a href="https://www.facebook.com/example/" class="footer-social-link" target="_blank" title="Мы в Facebook">
+									<i class="icon-facebook-circle"></i>
+								</a>
+                            </div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
+        {% block extra_js %}{% endblock %}
+        <!--noindex-->
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-75649848-1', 'auto');
+            ga('send', 'pageview');
+        </script>
+        <!--/noindex-->
+    </body>
+</html>

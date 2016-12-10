@@ -1,0 +1,7 @@
+<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label is-dirty full-width">
+  <input type="file" id="field-{{ f.db/id }}" name="{{ f.db/ident }}">
+  <label class="mdl-textfield__label mdl-typography--text-capitalize" for="field-{{ f.db/id }}">
+    {{ f.name }}
+  </label>
+  {% if value %}MD5 sum: {{ value|hash:"md5" }}{% endif %}
+</div>

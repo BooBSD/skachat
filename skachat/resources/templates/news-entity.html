@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}{{ entity.metaTitle }}{% endblock %}
+{% block meta_description %}{{ entity.metaDescription }}{% endblock %}
+
+{% block ogtags %}
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{ entity.title }}">
+    <meta property="og:image" content="{{ entity.image|media|url }}" itemprop="image">
+    <meta property="og:description" content="{{ entity.teaser }}">
+{% endblock %}
+
+{% block content %}
+    <div id="blog-jumbotron" class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7">
+                    <blockquote class="blockquote">
+                        <h1 class="display-3">Новости</h1>
+                        <p class="lead m-b-0">Блог свежих новостей попуулярных программ {% for app in all-apps %}{{ app.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <ol itemscope itemtype="http://schema.org/BreadcrumbList" class="breadcrumb">
+                    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <a itemprop="item" href="{% url %}/{% endurl %}">
+                            <span itemprop="name">Главная</a>
+                            <meta itemprop="position" content="1">
+                        </a>
+                    </li>
+                    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <a itemprop="item" href="{% url %}/news{% endurl %}">
+                            <span itemprop="name">Новости</a>
+                            <meta itemprop="position" content="2">
+                        </a>
+                    </li>
+                    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="active">
+                        <span itemprop="item">
+                            <span itemprop="name">{{ entity.app.name }}</span>
+                            <meta itemprop="position" content="3">
+                        </span>
+                    </li>
+                </ol>
+                <article itemscope itemtype="http://schema.org/NewsArticle">
+                    <meta itemscope itemprop="mainEntityOfPage" itemType="https://schema.org/WebPage" itemid="{% url %}/news/{{ entity.slug }}{% endurl %}">
+                    <meta itemprop="dateModified" content="{{ entity.updated|date:"yyyy-MM-dd" }}">
+                    <meta itemprop="description" content="{{ entity.text }}">
+                    <meta itemprop="author" content="example.com">
+                    <meta itemprop="alternativeHeadline" content="{{ entity.teaser }}">
+                    <link itemprop="discussionUrl" href="{% url %}/news/{{ entity.slug }}{% endurl %}#disqus_thread">
+                    <h1 itemprop="name headline">{{ entity.title }}</h1>
+                    <time class="bold" itemprop="datePublished" datetime="{{ entity.created|date:"yyyy-MM-dd" }}">{{ entity.created|date:"dd.MM.yyyy" }}</time>
+                    <p class="lead m-t-1">{{ entity.teaser }}</p>
+                    <hr>
+                    <div itemprop="articleBody">
+                        <div class="article-image" itemprop="image" itemscope itemtype="https://schema.org/ImageObject">
+                            {% if entity.image %}
+                                <link itemprop="url" href="{{ entity.image|media|url }}">
+                                <meta itemprop="width" content="{{ entity.image|width }}">
+                                <meta itemprop="height" content="{{ entity.image|height }}">
+                                <link itemprop="thumbnail" href="{{ entity.image|thumbnail:64|get:thumbnail|media|url }}">
+                                <img src="{{ entity.image|media|url }}" class="img-fluid center-block m-b-1">
+                            {% else %}
+                                <link itemprop="url" href="{% url %}/img/logo.png{% endurl %}">
+                                <meta itemprop="width" content="316">
+                                <meta itemprop="height" content="280">
+                                <link itemprop="thumbnail" href="{% url %}/img/logo-small.png{% endurl %}">
+                            {% endif %}
+                        </div>
+                        {{ entity.text|linebreaks|safe }}
+                    </div>
+                    <div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">
+                        <div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">
+                            <link itemprop="url" href="{% url %}/img/logo.png{% endurl %}">
+                            <link itemprop="thumbnail" href="{% url %}/img/logo-small.png{% endurl %}">
+                            <meta itemprop="width" content="158">
+                            <meta itemprop="height" content="140">
+                        </div>
+                        <meta itemprop="name" content="example.com">
+                        <meta itemprop="address" content="n/a">
+                        <meta itemprop="telephone" content="n/a">
+                    </div>
+                </article>
+                <div class="ya-share2" data-services="vkontakte,facebook,odnoklassniki,gplus" data-counter=""></div>
+                {% if not related|length-is:0 %}
+                    <hr>
+                    <p class="text-uppercase">Читайте также:</p>
+                    <div class="card-group">
+                        {% for r in related %}
+                            <a href="{% url %}/news/{{ r.slug }}{% endurl %}" class="card card-block">
+                                <h5 class="card-title">{{ r.title }}</h5>
+                                <p class="card-text smaller">{{ r.teaser }}</p>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div id="disqus_thread" class="m-t-2"></div>
+                <noscript>Для просмотра комментариев пожалуйста включите JavaScript.</noscript>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block extra_js %}
+    <script type="text/javascript" src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="//yastatic.net/share2/share.js" charset="utf-8"></script>
+    <script>
+    var disqus_config = function () {
+        this.page.url = '{% url %}/news/{{ entity.slug }}{% endurl %}';
+        this.page.identifier = '{{ entity.slug }}';
+    };
+    (function() {
+        var d = document, s = d.createElement('script');
+
+        s.src = '//example.disqus.com/embed.js';
+
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+    </script>
+{% endblock %}

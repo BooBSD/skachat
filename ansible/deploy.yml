@@ -1,0 +1,13 @@
+---
+- hosts: webserver
+  remote_user: myuser
+  tasks:
+  - name: CSS and JS minification
+    local_action: command chdir={{ playbook_dir }}/../skachat/ lein minify-assets
+  - name: uberjar project
+    local_action: command chdir={{ playbook_dir }}/../skachat/ lein uberjar
+  - name: rsync latest skachat.jar
+    synchronize: src={{ playbook_dir }}/../skachat/target/skachat.jar dest=/home/myuser/www/skachat.jar
+  - name: restart skachat service
+    sudo: true
+    service: name=skachat state=restarted

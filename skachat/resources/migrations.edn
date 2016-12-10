@@ -1,0 +1,190 @@
+{
+  :migrations/initial-schema
+    {:txes [
+      [
+        ;; Application
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app/name
+         :db/valueType :db.type/string
+         :db/cardinality :db.cardinality/one
+         :db/doc "Application's name"
+         :db.install/_attribute :db.part/db}
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app/slug
+         :db/valueType :db.type/string
+         :db/cardinality :db.cardinality/one
+         :db/unique :db.unique/value
+         :db/doc "Slug of Application"
+         :db.install/_attribute :db.part/db}
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app/teaser
+         :db/valueType :db.type/string
+         :db/cardinality :db.cardinality/one
+         :db/doc "Teaser of Application"
+         :db.install/_attribute :db.part/db}
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app/metaTitle
+         :db/valueType :db.type/string
+         :db/cardinality :db.cardinality/one
+         :db/doc "Meta title of Application"
+         :db.install/_attribute :db.part/db}
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app/metaDescription
+         :db/valueType :db.type/string
+         :db/cardinality :db.cardinality/one
+         :db/doc "Meta description of Application"
+         :db.install/_attribute :db.part/db}
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app/version
+         :db/valueType :db.type/string
+         :db/cardinality :db.cardinality/one
+         :db/doc "Application's version"
+         :db.install/_attribute :db.part/db}
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app/size
+         :db/valueType :db.type/float
+         :db/cardinality :db.cardinality/one
+         :db/doc "Application's size in MB"
+         :db.install/_attribute :db.part/db}
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app/downloadUrl
+         :db/valueType :db.type/string
+         :db/cardinality :db.cardinality/one
+         :db/doc "Application's download URL"
+         :db.install/_attribute :db.part/db}
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app/logo
+         :db/valueType :db.type/string
+         :db/cardinality :db.cardinality/one
+         :db/doc "Application's logo"
+         :db.install/_attribute :db.part/db}
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app/background
+         :db/valueType :db.type/string
+         :db/cardinality :db.cardinality/one
+         :db/doc "Application's background"
+         :db.install/_attribute :db.part/db}
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app/published
+         :db/valueType :db.type/boolean
+         :db/cardinality :db.cardinality/one
+         :db/doc "Application is published"
+         :db.install/_attribute :db.part/db}
+
+
+        ;; Part
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app.part/app
+         :db/valueType :db.type/ref
+         :db/cardinality :db.cardinality/one
+         :db/doc "Part for App"
+         :db.install/_attribute :db.part/db}
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app.part/template
+         :db/valueType :db.type/ref
+         :db/cardinality :db.cardinality/one
+         :db/doc "Part template enum values"
+         :db.install/_attribute :db.part/db}
+
+        [:db/add #db/id[:db.part/user] :db/ident :app.part.template/leftImageDark]
+        [:db/add #db/id[:db.part/user] :db/ident :app.part.template/rightImageDark]
+        [:db/add #db/id[:db.part/user] :db/ident :app.part.template/leftImageGrey]
+        [:db/add #db/id[:db.part/user] :db/ident :app.part.template/rightImageGrey]
+        [:db/add #db/id[:db.part/user] :db/ident :app.part.template/leftImageLight]
+        [:db/add #db/id[:db.part/user] :db/ident :app.part.template/rightImageLight]
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app.part/image
+         :db/valueType :db.type/string
+         :db/cardinality :db.cardinality/one
+         :db/doc "Part's image"
+         :db.install/_attribute :db.part/db}
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app.part/title
+         :db/valueType :db.type/string
+         :db/cardinality :db.cardinality/one
+         :db/doc "Part's title"
+         :db.install/_attribute :db.part/db}
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app.part/text
+         :db/valueType :db.type/string
+         :db/cardinality :db.cardinality/one
+         :db/doc "Part's text"
+         :db.install/_attribute :db.part/db}
+
+
+        ;; News
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app.news/app
+         :db/valueType :db.type/ref
+         :db/cardinality :db.cardinality/one
+         :db/doc "App of news"
+         :db.install/_attribute :db.part/db}
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app.news/image
+         :db/valueType :db.type/string
+         :db/cardinality :db.cardinality/one
+         :db/doc "News's image"
+         :db.install/_attribute :db.part/db}
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app.news/title
+         :db/valueType :db.type/string
+         :db/cardinality :db.cardinality/one
+         :db/doc "News's title"
+         :db.install/_attribute :db.part/db}
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app.news/slug
+         :db/valueType :db.type/string
+         :db/cardinality :db.cardinality/one
+         :db/unique :db.unique/value
+         :db/doc "Slug of News"
+         :db.install/_attribute :db.part/db}
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app.news/teaser
+         :db/valueType :db.type/string
+         :db/cardinality :db.cardinality/one
+         :db/doc "News's teaser"
+         :db.install/_attribute :db.part/db}
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app.news/text
+         :db/valueType :db.type/string
+         :db/cardinality :db.cardinality/one
+         :db/fulltext true
+         :db/doc "News's text"
+         :db.install/_attribute :db.part/db}
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app.news/metaTitle
+         :db/valueType :db.type/string
+         :db/cardinality :db.cardinality/one
+         :db/doc "Meta title"
+         :db.install/_attribute :db.part/db}
+
+        {:db/id #db/id[:db.part/db]
+         :db/ident :app.news/metaDescription
+         :db/valueType :db.type/string
+         :db/cardinality :db.cardinality/one
+         :db/doc "Meta description"
+         :db.install/_attribute :db.part/db}]]}
+}

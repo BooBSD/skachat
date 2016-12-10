@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}{{ app.metaTitle }}{% endblock %}
+{% block meta_description %}{{ app.metaDescription }}{% endblock %}
+
+{% block ogtags %}
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="{{ app.metaTitle }}">
+    <meta property="og:image" content="{{ app.logo|media|url }}">
+    <meta property="og:description" content="{{ app.metaDescription }}">
+{% endblock %}
+
+{% block content %}
+    <section itemscope itemtype="http://schema.org/SoftwareApplication">
+        <meta itemprop="applicationCategory" content="Интернет">
+        <meta itemprop="datePublished" content="{{ app.updated|date:"yyyy-MM-dd" }}">
+        <span itemscope itemprop="offers" itemtype="http://schema.org/Offer">
+            <meta itemprop="price" content="0">
+            <meta itemprop="priceCurrency" content="USD">
+        </span>
+        <span itemprop="aggregateRating" itemtype="http://schema.org/AggregateRating" itemscope>
+            <meta itemprop="worstRating" content="1">
+            <meta itemprop="bestRating" content="5">
+            <meta itemprop="ratingValue" content="5">
+            <meta itemprop="ratingCount" content="1">
+        </span>
+        <div class="jumbotron jumbotron-fluid app-jumbotron m-b-0" style="background-image:url({{ app.background|media|url }})">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="inner-section-left">
+                            <h1 class="display-3" itemprop="name">{{ app.name }}</h1>
+                            <p class="lead" itemprop="description">{{ app.teaser }}</p>
+                            <div class="dl-row">
+                                <small class="text-white">
+                                    Версия для <span itemprop="operatingSystem">Windows</span>:
+                                    <span itemprop="softwareVersion">{{ app.version }}</span>, <span itemprop="fileSize">{{ app.size }}</span> Мб
+                                </small>
+                                <a class="btn btn-lg btn-custom-1 m-l-1" href="{{ app.downloadUrl }}" role="button">
+                                    Скачать
+                                </a>
+                            </div>
+                            <div class="ya-share2 m-t-1" data-services="vkontakte,facebook,odnoklassniki,gplus" data-counter=""></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-5">
+                        <div class="inner-section-right">
+                            <h3>
+                                Последние новости
+                                <a href="{% url %}/news/rss{% endurl %}" class="pull-xs-right" target="_blank" title="Подписаться на новости">
+                                    <i class="icon-feed"></i>
+                                </a>
+                            </h3>
+                            {% for n in news %}
+                                <div class="media">
+                                    <div class="media-body">
+                                        <h4 class="media-heading">
+                                            <a href="{% url %}/news/{{ n.slug }}{% endurl %}" class="text-black bold">{{ n.title }}</a>
+                                        </h4>
+                                        {{ n.teaser }}
+                                    </div>
+                                </div>
+                            {% endfor %}
+                            <div class="text-xs-right">
+                                <a href="{% url %}/news{% endurl %}" class="btn btn-sm btn-primary m-t-1">Все новости</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% for part in parts %}
+            {% with template=part.template.ident|name %}
+                {% ifequal template "leftImageDark" %}{% include "parts/leftImageDark.html" %}{% endifequal %}
+                {% ifequal template "leftImageGrey" %}{% include "parts/leftImageGrey.html" %}{% endifequal %}
+                {% ifequal template "leftImageLight" %}{% include "parts/leftImageLight.html" %}{% endifequal %}
+                {% ifequal template "rightImageDark" %}{% include "parts/rightImageDark.html" %}{% endifequal %}
+                {% ifequal template "rightImageGrey" %}{% include "parts/rightImageGrey.html" %}{% endifequal %}
+                {% ifequal template "rightImageLight" %}{% include "parts/rightImageLight.html" %}{% endifequal %}
+            {% endwith %}
+        {% endfor %}
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 col-sm-offset-3">
+                    <a class="btn btn-lg btn-block btn-custom-1" href="{{ app.downloadUrl }}" role="button">
+                        Скачать {{ app.name }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block extra_js %}
+    <script type="text/javascript" src="//yastatic.net/es5-shims/0.0.2/es5-shims.min.js" charset="utf-8"></script>
+    <script type="text/javascript" src="//yastatic.net/share2/share.js" charset="utf-8"></script>
+{% endblock %}

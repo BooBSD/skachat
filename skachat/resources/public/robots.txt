@@ -1,0 +1,5 @@
+Host: example.com
+Sitemap: https://example.com/sitemap.xml
+
+User-agent: Mediapartners-Google
+Disallow:

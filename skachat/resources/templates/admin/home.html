@@ -1,0 +1,23 @@
+{% extends "admin/base.html" %}
+{% block content %}
+<div class="page-section">
+  <div class="mdl-grid">
+    <div class="mdl-cell mdl-cell--6-col">
+      <div class="mdl-list">
+        {% for ns in namespaces %}
+          <div class="mdl-list__item">
+            <span class="mdl-list__item-primary-content">
+              <a href="/admin/{{ ns }}" class="mdl-typography--text-capitalize">{{ ns }}</a>
+            </span>
+            <span class="mdl-list__item-secondary-action">
+              <a href="/admin/{{ ns }}/add" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
+                <i class="material-icons">add</i>
+              </a>
+            </span>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

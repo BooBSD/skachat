@@ -1,0 +1,19 @@
+{% ifequal type "boolean" %}
+  {% include "admin/widgets/boolean.html" %}
+{% endifequal %}
+
+{% ifequal type "float" %}
+  {% include "admin/widgets/float.html" %}
+{% endifequal %}
+
+{% ifequal type "ref" %}
+  {% include "admin/widgets/ref.html" %}
+{% endifequal %}
+
+{% ifequal type "string" %}
+  {% include "admin/widgets/string.html" %}
+{% endifequal %}
+
+{% ifequal type "bytes" %}
+  {% include "admin/widgets/bytes.html" %}
+{% endifequal %}

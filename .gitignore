@@ -1,0 +1,16 @@
+backup
+uploads
+target
+log
+classes
+checkouts
+pom.xml
+*.jar
+*.class
+.lein-*
+.nrepl-port
+.env
+*.log
+datomic-creds.edn
+site.min.css
+site.min.js

@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}example.com - Новости популярных программ{% endblock %}
+{% block meta_description %}Читайте последние новости Opera, Яндекс, MediaGet и других популярных программ.{% endblock %}
+
+{% block ogtags %}
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Новости и обзоры популярных программ">
+    <meta property="og:image" content="{% url %}/img/logo.png{% endurl %}" itemprop="image">
+    <meta property="og:description" content="Последние новости Opera, Яндекс, MediaGet и других популярных программ">
+{% endblock %}
+
+{% block canonical %}{% url %}/news{% endurl %}{% endblock %}
+{% block extra_meta %}
+    {% with prev=news|prev-page:@cur-page next=news|next-page:@cur-page %}
+        {% if prev %}
+            <link rel="prev" href="{% url %}/news/page/{{ prev }}{% endurl %}">
+        {% endif %}
+        {% if next %}
+            <link rel="next" href="{% url %}/news/page/{{ next }}{% endurl %}">
+        {% endif %}
+    {% endwith %}
+{% endblock %}
+
+{% block content %}
+    <div id="blog-jumbotron" class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-7">
+                    <blockquote class="blockquote">
+                        <h1 class="display-3">Новости</h1>
+                        <p class="lead m-b-0">Блог свежих новостей популярных программ {% for app in all-apps %}{{ app.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                    </blockquote>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <ol itemscope itemtype="http://schema.org/BreadcrumbList" class="breadcrumb">
+                    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem">
+                        <a itemprop="item" href="{% url %}/{% endurl %}">
+                            <span itemprop="name">Главная</a>
+                            <meta itemprop="position" content="1">
+                        </a>
+                    </li>
+                    <li itemprop="itemListElement" itemscope itemtype="http://schema.org/ListItem" class="active">
+                        <span itemprop="item">
+                            <span itemprop="name">Новости</span>
+                            <meta itemprop="position" content="2">
+                        </span>
+                    </li>
+                </ol>
+                {% with news-page=news|page:@cur-page %}
+                    {% for n in news-page %}
+                        <div class="media">
+                            <div class="media-body">
+                                <h4 class="media-heading">
+                                    <a href="{% url %}/news/{{ n.slug }}{% endurl %}">{{ n.title }}</a>
+                                </h4>
+                                <time class="bold">{{ n.created|date:"dd.MM.yyyy" }}</time> - {{ n.teaser }}
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endwith %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <nav>
+                    <ul class="pager">
+                        {% with prev=news|prev-page:@cur-page next=news|next-page:@cur-page %}
+                            {% if prev %}
+                                <li class="pager-prev"><a href="{% url %}/news/page/{{ prev }}{% endurl %}">Сюда</a></li>
+                            {% else %}
+                                <li class="pager-prev disabled"><a href="#">Сюда</a></li>
+                            {% endif %}
+                            {% if next %}
+                                <li class="pager-next"><a href="{% url %}/news/page/{{ next }}{% endurl %}">Туда</a></li>
+                            {% else %}
+                                <li class="pager-next disabled"><a href="#">Туда</a></li>
+                            {% endif %}
+                        {% endwith %}
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+{% endblock %}

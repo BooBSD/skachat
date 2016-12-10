@@ -1,0 +1,14 @@
+{% if f.choices %}
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label is-dirty">
+    <select id="field-{{ f.db/id }}" name="{{ f.db/ident }}" class="full-width">
+      {% for choice in f.choices %}
+        <option value="{{ choice|first }}" {% ifequal value choice|first %} selected{% endifequal %}>{{ choice|last }}</option>
+      {% endfor %}
+    </select>
+    <label class="mdl-textfield__label mdl-typography--text-capitalize" for="field-{{ f.db/id }}">
+      {{ f.name }}
+    </label>
+  </div>
+{% else %}
+  {% include "admin/widgets/string.html" %}
+{% endif %}

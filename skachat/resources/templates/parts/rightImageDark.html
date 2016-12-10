@@ -1,0 +1,15 @@
+<div class="jumbotron jumbotron-fluid app-jumbotron m-b-0">
+    <div class="container inner-section-left">
+        <div class="row">
+            <div class="col-lg-6">
+                <h2 class="display-4">{{ part.title }}</h2>
+                <p class="lead m-b-0">{{ part.text }}</p>
+            </div>
+            <div class="col-lg-6">
+                {% if part.image %}
+                    <img src="{{ part.image|media|url }}" class="img-fluid center-block app-part-img-right" alt="{{ part.title }}">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>

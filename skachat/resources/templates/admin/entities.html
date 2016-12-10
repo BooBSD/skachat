@@ -1,0 +1,104 @@
+{% extends "admin/base.html" %}
+
+{% block scripts %}
+<script>
+var button_delete = document.getElementById('button-delete');
+var table = document.querySelector('table');
+var headerCheckbox = table.querySelector('thead .mdl-data-table__select input');
+var boxes = table.querySelectorAll('tbody .mdl-data-table__select');
+var headerCheckHandler = function(e) {
+  button_delete.disabled = !e.target.checked;
+  if (e.target.checked) {
+    for (var i = 0, length = boxes.length; i < length; i++) {
+      boxes[i].MaterialCheckbox.check();
+      boxes[i].parentNode.parentNode.classList.add("is-selected");
+    }
+  } else {
+    for (var i = 0, length = boxes.length; i < length; i++) {
+      boxes[i].MaterialCheckbox.uncheck();
+      boxes[i].parentNode.parentNode.classList.remove("is-selected");
+    }
+  }
+};
+headerCheckbox.addEventListener('change', headerCheckHandler);
+var inputs = table.querySelectorAll('tbody .mdl-data-table__select');
+[].forEach.call(inputs, function(input) {
+  input.addEventListener('change', function(e) {
+    var checked = table.querySelectorAll('tbody .mdl-data-table__select input:checked');
+    button_delete.disabled = checked.length == 0;
+    var tr = e.target.parentNode.parentNode.parentNode;
+    if (e.target.checked) {
+      tr.classList.add('is-selected');
+    } else {
+      tr.classList.remove('is-selected');
+    }
+  });
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div class="page-section">
+  <form method="POST" action="">
+    {% csrf-field %}
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--6-col">
+        <h1 class="mdl-typography--title-color-contrast">Выберите <span class="mdl-typography--text-capitalize">{{ ns }}</span> для изменения</h1>
+      </div>
+      <div class="mdl-cell mdl-cell--6-col mdl-cell--bottom mdl-typography--text-right">
+        <a href="/admin/{{ ns }}/add" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">Добавить</a>
+        <input type="submit" value="Удалить" id="button-delete" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" disabled>
+      </div>
+    </div>
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--12-col">
+        <table class="mdl-data-table mdl-shadow--2dp full-width">
+          <thead>
+            <tr>
+              <th class="mdl-data-table__cell--non-numeric">
+                <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect mdl-data-table__select" for="table-header">
+                  <input type="checkbox" id="table-header" class="mdl-checkbox__input" />
+                </label>
+              </th>
+              {% for attr in attrs %}
+                <th class="mdl-data-table__cell--non-numeric mdl-typography--text-capitalize">{{ attr }}</th>
+              {% endfor %}
+            </tr>
+          </thead>
+          <tbody>
+            {% for row in values %}
+              <tr>
+                {% for val in row %}
+                  {% if forloop.first %}
+                    <td class="mdl-data-table__cell--non-numeric">
+                      <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect mdl-data-table__select" >
+                        <input type="checkbox"  class="mdl-checkbox__input" name="entities[]" value="{{ val }}">
+                      </label>
+                    </td>
+                  {% else %}
+                    <td class="mdl-data-table__cell--non-numeric">
+                      {% ifequal forloop.counter0 1 %}
+                        <a href="/admin/{{ ns }}/{{ row|first }}">{{ val }}</a>
+                      {% else %}
+                        {% ifequal val "true" %}
+                          <i class="material-icons">check</i>
+                        {% else %}
+                          {% ifequal val "false" %}
+                            <i class="material-icons">block</i>
+                          {% else %}
+                            {{ val }}
+                          {% endifequal %}
+                        {% endifequal %}
+                      {% endifequal %}
+                    </td>
+                  {% endif %}
+                {% endfor %}
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{:port 3000
+ :database-url "datomic:free://localhost:4334/skachat"
+ :session-max-age 2592000 ; 30 days
+ :session-secret-key "DEV SECRET KEY"
+ :base-url "http://127.0.0.1:3000"
+ :media-root "resources/public/uploads/"
+ :media-url "/uploads/"
+ :thumbnail-quality 0.8
+ :items-per-page 2}

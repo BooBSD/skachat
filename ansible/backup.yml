@@ -1,0 +1,20 @@
+---
+- hosts: webserver
+  vars:
+    backup_file: "backup_{{ ansible_date_time.date }}_{{ ansible_date_time.time }}.tar.gz"
+  remote_user: myuser
+  tasks:
+  - name: stop skachat service
+    sudo: true
+    service: name=skachat state=stopped
+  - name: backup datomic
+    command: /var/lib/datomic/bin/datomic -Xmx128m -Xms128m -Ddatomic.objectCacheMax=32m -Ddatomic.memoryIndexMax=32m backup-db datomic:free://localhost:4334/skachat file:/home/myuser/backup
+  - name: start skachat service
+    sudo: true
+    service: name=skachat state=restarted
+  - name: make backup archive
+    command: chdir=/home/myuser /bin/tar zcvf ./{{ backup_file }} ./backup/ ./www/resources/public/uploads/
+  - name: fetch backup archive
+    fetch: src=/home/myuser/{{ backup_file }} dest={{ playbook_dir }}/../backup/ flat=yes
+  - name: remove backup archive
+    command: /bin/rm {{ backup_file }}

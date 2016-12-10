@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Похоже, что-то сломалось{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 m-t-3 m-b-3 text-xs-center">
+                <h1 class="h2">Похоже, что-то пошло не так... Ошибка {{ status }}</h1>
+                {% ifequal status 404 %}
+                    <h4>Страница не найдена.</h4>
+                {% else %}
+                    {% ifequal status 500 %}
+                        <h4>Внутренняя ошибка сервера.</h4>
+                    {% else %}
+                        <h1><span class="text-danger">Error: {{ status }}</span></h1>
+                        <hr>
+                        {% if title %}
+                            <h2 class="without-margin">{{ title }}</h2>
+                        {% endif %}
+                        {% if message %}
+                            <h4 class="text-danger">{{ message }}</h4>
+                        {% endif %}
+                    {% endifequal %}
+                {% endifequal %}
+                <div class="m-t-2 m-b-2">
+                    <img src="{% url %}/img/error.png{% endurl %}" width="128" height="128" alt="404">
+                </div>
+                <p>
+                    Вы можете воспользоваться меню, либо вернуться на <a href="{% url %}/{% endurl %}">главную страницу</a>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock %}

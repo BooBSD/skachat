@@ -1,0 +1,61 @@
+{% extends "admin/base.html" %}
+
+{% block content %}
+<div class="page-section">
+  <form method="POST" action="" enctype="multipart/form-data">
+    {% csrf-field %}
+    <div class="mdl-grid">
+      <div class="mdl-cell full-width">
+        <h1 class="mdl-typography--title-color-contrast">
+          {% if id %}
+            Редактирование <span class="mdl-typography--text-capitalize">{{ ns }}</span>
+          {% else %}
+            Добавление <span class="mdl-typography--text-capitalize">{{ ns }}</span>
+          {% endif %}
+        </h1>
+        {% if error %}
+          <h3 class="mdl-typography--title-color-contrast text-error">{{ error }}</h3>
+        {% endif %}
+      </div>
+    </div>
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--12-col">
+        <div class="mdl-card mdl-shadow--2dp full-width padding-1em">
+          {% for f in fields %}
+            {% with value=f.value type=f.db/valueType|name %}
+              <div class="mdl-grid full-width">
+                <div class="mdl-cell mdl-cell--12-col">
+                  {% ifequal f.db/cardinality ":db.cardinality/many" %}
+                    {% if f.value %}
+                      {% for value in f.value %}
+                        {% include "admin/widgets/widget.html" %}
+                      {% endfor %}
+                    {% else %}
+                      {% include "admin/widgets/widget.html" %}
+                    {% endif %}
+                    <a href="#" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
+                      <i class="material-icons">add</i>
+                    </a>
+                  {% else %}
+                    {% include "admin/widgets/widget.html" %}
+                  {% endifequal %}
+                </div>
+              </div>
+            {% endwith %}
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+    <div class="mdl-grid">
+      <div class="mdl-cell mdl-cell--6-col">
+        {% if id %}
+          <button formaction="/admin/{{ ns }}" type="submit" name="entities[]" value="{{ id }}" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent">Удалить</button>
+        {% endif %}
+      </div>
+      <div class="mdl-cell mdl-cell--6-col mdl-typography--text-right">
+        <input type="submit" value="Сохранить" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--colored">
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock %}

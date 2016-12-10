@@ -1,0 +1,28 @@
+<div class="mdl-textfield mdl-js-textfield is-dirty full-width
+            {% ifequal f.db/cardinality ":db.cardinality/one" %}
+              mdl-textfield--floating-label
+            {% else %}
+              {% if value %}
+                {% ifequal forloop.counter 1 %}
+                  mdl-textfield--floating-label
+                {% endifequal %}
+              {% else %}
+                mdl-textfield--floating-label
+              {% endif %}
+            {% endifequal %}">
+  {% if f.widget %}
+    {% ifequal f.widget|first "textarea" %}
+      <textarea class="mdl-textfield__input" type="text" rows="10" id="field-{{ f.db/id }}" name="{{ f.db/ident }}" {% block attrs %}{% endblock %}>{{ value }}</textarea>
+    {% else ifequal f.widget|first "file" %}
+      <input type="file" id="field-{{ f.db/id }}" name="{{ f.db/ident }}">
+      {% if value %}
+        <a href="{{ value|media }}">{{ value }}</a>
+      {% endif %}
+    {% endifequal %}
+  {% else %}
+    <input class="mdl-textfield__input" type="text" id="field-{{ f.db/id }}" name="{{ f.db/ident }}" value="{{ value }}" {% block attrs %}{% endblock %}>
+  {% endif %}
+  <label class="mdl-textfield__label mdl-typography--text-capitalize" for="field-{{ f.db/id }}">
+    {{ f.name }}
+  </label>
+</div>
